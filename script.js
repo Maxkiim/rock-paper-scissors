@@ -1,6 +1,5 @@
 function getComputerChoice(){
     i = Math.floor(Math.random() * 3)
-    console.log(i)
     if (i == 0){
         return 'Rock'
     } else if (i == 1) {
@@ -12,25 +11,34 @@ function getComputerChoice(){
 function getHumanChoice() {
     choice = prompt('Please enter your choice: ')
     x = choice[0].toUpperCase() + choice.toLowerCase().slice(1)
-    console.log(x)
     return x
 }
-let humanScore = 0;
-let computerScore = 0;
 
 function playRound(humanChoice, computerChoice){
     if ((humanChoice == 'Rock' && computerChoice == 'Paper') || 
-        (humanChoice == 'Paper' && computerChoice == 'Scissors')||
-        (humanChoice == 'Scissors' && computerChoice == 'Rock')){
-            computerScore += computerScore
-            console.log(`You lose! ${computerChoice} beats ${humanChoice}`)
+    (humanChoice == 'Paper' && computerChoice == 'Scissors')||
+    (humanChoice == 'Scissors' && computerChoice == 'Rock')){
+        console.log(`You lose! ${computerChoice} beats ${humanChoice}`)
+        computerScore = computerScore+1
     } else if (
         (humanChoice == 'Paper' && computerChoice == 'Rock') || 
         (humanChoice == 'Scissors' && computerChoice == 'Paper')||
         (humanChoice == 'Rock' && computerChoice == 'Scissors')){
-            humanScore += humanScore
             console.log(`You win! ${humanChoice} beats ${computerChoice}`)
+            humanScore = humanScore + 1
     } else {
-        console.log('Its a Tie!')
+            console.log('Its a Tie!')
+    }
+    return (humanScore, computerScore)
+}
+
+let humanScore = 0
+let computerScore = 0
+function playGame(x){
+    for (let i = 0; i < x; i++){
+        humanChoice = getHumanChoice()
+        computerChoice = getComputerChoice()
+        playRound(humanChoice, computerChoice)
+        console.log(humanScore, computerScore)
     }
 }
