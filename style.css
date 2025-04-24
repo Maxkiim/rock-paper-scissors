@@ -1,0 +1,36 @@
+#container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.text-display {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.score-text {
+    font-size: 2em;
+    text-decoration: underline;
+    margin-bottom: 0;
+}
+.scores {
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-weight: 800;
+    font-size: 2em;
+}
+.btns > button {
+    margin-top: 20px;
+    height: 80px;
+    width: 100px;
+    font-size: 2em;
+}
+
+button.active {
+    border: 3px solid limegreen;
+    transform: scale(1.1);
+}
