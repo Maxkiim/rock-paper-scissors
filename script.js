@@ -1,87 +1,22 @@
-// function getComputerChoice(){
-//     i = Math.floor(Math.random() * 3)
-//     if (i == 0){
-//         return 'Rock'
-//     } else if (i == 1) {
-//         return 'Paper'
-//     } else {
-//         return 'Scissors'
-//     }
-// }
-// function getHumanChoice() {
-//     choice = prompt('Please enter your choice: ')
-//     x = choice[0].toUpperCase() + choice.toLowerCase().slice(1)
-//     return x
-// }
 
-// function playRound(humanChoice, computerChoice){
-//     if ((humanChoice == 'Rock' && computerChoice == 'Paper') || 
-//     (humanChoice == 'Paper' && computerChoice == 'Scissors')||
-//     (humanChoice == 'Scissors' && computerChoice == 'Rock')){
-//         console.log(`You lose! ${computerChoice} beats ${humanChoice}`)
-//         computerScore = computerScore+1
-//     } else if (
-//         (humanChoice == 'Paper' && computerChoice == 'Rock') || 
-//         (humanChoice == 'Scissors' && computerChoice == 'Paper')||
-//         (humanChoice == 'Rock' && computerChoice == 'Scissors')){
-//             console.log(`You win! ${humanChoice} beats ${computerChoice}`)
-//             humanScore = humanScore + 1
-//     } else {
-//             console.log('Its a Tie!')
-//     }
-//     return (humanScore, computerScore)
-// }
-
-// let humanScore = 0
-// let computerScore = 0
-// function playGame(){
-//     humanChoice = getHumanChoice()
-//     computerChoice = getComputerChoice()
-//     playRound(humanChoice, computerChoice)
-//     console.log(humanScore, computerScore)
-// }
-//Variables
-
-let humanScore = 0;
-let computerScore = 0;
-
-// 1. Connect each button with each choice.
+// 1. Create variable for each btn 
 
 const rock = document.querySelector("#rock");
 const paper = document.querySelector("#paper");
 const scissors = document.querySelector("#scissors");
 const playBtn = document.querySelector('#play');
+const comments = document.querySelector(".comments");
+const resetBtn = document.querySelector("#reset");
+
+//Other variables 
 
 let playerChoice = "";
+let humanScore = 0;
+let computerScore = 0;
 
-// 2. Create a on click response
+// Functions
 
-rock.addEventListener("click", () => humanChoice('rock'));
-paper.addEventListener("click", () => humanChoice('paper'));
-scissors.addEventListener("click", () => humanChoice('scissors'));
-playBtn.addEventListener("click", () => playRound(playerChoice, getComputerChoice()));
-
-// 3. Get human choice and highlight it
-
-function humanChoice(choice){
-    playerChoice = choice[0].toUpperCase() + choice.slice(1);
-    console.log(choice + ' clicked', playerChoice)
-    //add style on button selected.
-    selectedBtn(choice)
-    return playerChoice
-}
-function selectedBtn(choice){
-    document.querySelectorAll("button").forEach(btn => { 
-       btn.classList.remove("active")
-    });
-    document.getElementById(choice).classList.add("active");
-}
-function removeActive(choice){
-    document.getElementById(choice).classList.remove("active");
-}
-
-// 4. Get Computer choice
-
+// gets computer choice 
 function getComputerChoice(){
     i = Math.floor(Math.random() * 3)
     if (i == 0){    
@@ -93,32 +28,79 @@ function getComputerChoice(){
     }
 };
 
-// 5. Play the game
-
-function playRound(humanChoice, computerChoice){
-    computerChoice = getComputerChoice()
-    if (humanChoice === computerChoice) {
-        document.querySelector(".comments").textContent = "You tied this round!";
-    } else if (
-        (humanChoice === "Rock" && computerChoice === "Scissors") ||
-        (humanChoice === "Paper" && computerChoice === "Rock") ||
-        (humanChoice === "Scissors" && computerChoice === "Paper")
-    ){
-        humanScore++;
-        document.querySelector(".comments").textContent = "You win this round!";
-        updateScoreDisplay();
-        }
-    else {
-        computerScore++;
-        document.querySelector(".comments").textContent = "You lost this round!";
-        updateScoreDisplay();
-    }
-    document.querySelectorAll("button").forEach(btn => { 
-        btn.classList.remove("active")
-     });
+// gets human choice based on btn clicked + highlights btn selected
+function humanChoice(choice){
+    playerChoice = choice[0].toUpperCase() + choice.slice(1);
+    console.log(choice + ' clicked', playerChoice)
+    selectedBtn(choice) //add style on button selected.
+    return playerChoice
 }
-
+function selectedBtn(choice){
+    document.querySelectorAll("button").forEach(btn => { 
+       btn.classList.remove("active")
+    });
+    document.getElementById(choice).classList.add("active");
+}
+function removeActive(choice){ //function to remove highlight on selected btn
+    document.getElementById(choice).classList.remove("active");
+}
+// reseting the game function
+function resetGame(){
+    humanScore = 0;
+    computerScore = 0;
+    document.querySelectorAll("button").forEach(btn => {
+        btn.classList.remove("active");
+    })
+    comments.textContent = "";
+    updateScoreDisplay()
+}
+//updates scores
 function updateScoreDisplay() {
     document.querySelector(".human-score").textContent = humanScore;
     document.querySelector(".computer-score").textContent = computerScore;
 }
+// Main functions to play the rock paper, scissors game
+function playRound(humanChoice, computerChoice){
+    if (humanScore >= 5 || computerScore >= 5){
+        resetGame()
+    } else {
+        computerChoice = getComputerChoice()
+        if (humanChoice === computerChoice) {
+            comments.textContent = "You tied this round!";
+        } else if (
+            (humanChoice === "Rock" && computerChoice === "Scissors") ||
+            (humanChoice === "Paper" && computerChoice === "Rock") ||
+            (humanChoice === "Scissors" && computerChoice === "Paper")
+        ){
+            humanScore++;
+            comments.textContent = "You win this round!";
+            updateScoreDisplay();
+            }
+        else {
+            computerScore++;
+            comments.textContent = "You lost this round!";
+            updateScoreDisplay();
+        }
+        document.querySelectorAll("button").forEach(btn => { 
+            btn.classList.remove("active")
+        });
+    }
+    if (humanScore == 5){
+        comments.textContent = "YOU HAVE WON THE GAME !"
+    } else if (computerScore == 5){
+        comments.textContent = "YOU HAVE LOST TO THE COMPUTER!"
+    }
+}
+
+
+rock.addEventListener("click", () => humanChoice('rock'));
+paper.addEventListener("click", () => humanChoice('paper'));
+scissors.addEventListener("click", () => humanChoice('scissors'));
+playBtn.addEventListener("click", () => playRound(playerChoice, getComputerChoice()));
+resetBtn.addEventListener("click", () => resetGame());
+
+// 5. Play the game
+
+
+
+
