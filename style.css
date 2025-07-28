@@ -29,8 +29,7 @@
     width: 100px;
     font-size: 2em;
 }
-
-button.active {
+.active {
     border: 3px solid limegreen;
     transform: scale(1.1);
 }
